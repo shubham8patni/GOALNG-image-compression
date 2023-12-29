@@ -1,3 +1,19 @@
+<br>
+<b>Comparison between JPEG and PNG for compression<b>
+
+|                       | JPEG                                      | PNG                                       |
+|-----------------------|-------------------------------------------|-------------------------------------------|
+| **Advantages**        |                                           |                                           |
+| Compression           | High compression, smaller file size         | Lossless compression, good for simple images and graphics with large areas of uniform color|
+| Color Depth           | Supports millions of colors (24-bit)       | Supports millions of colors (24-bit)       |
+| Transparency          | Does not support transparency              | Supports alpha channel for transparency   |
+| **Disadvantages**     |                                           |                                           |
+| Lossy Compression     | Lossy compression, may result in artifacts  | Lossless compression, larger file sizes    |
+| Artifacts             | Compression artifacts may be visible       | No artifacts, but larger file sizes        |
+| Transparency          | Does not support transparency              | Supports transparency, but may result in larger file sizes|
+| Suitable for          | Photographs and images with gradients      | Images with sharp edges, logos, icons      |
+
+<br><br>
 <b>Singular Value Decomposition (SVD) in simple terms.<b>
 
 >1. **Start with a Matrix:**
@@ -22,3 +38,5 @@
     - Even though you're simplifying, you can still get a pretty good idea of what the original photo looked like.
 
 >In summary, Singular Value Decomposition is like breaking down complex data into simpler patterns and strengths. By focusing on the most important parts, you can understand and represent your data in a more efficient and meaningful way. It's a tool that helps simplify and find the key aspects of your information.
+
+
