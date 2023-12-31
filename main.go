@@ -23,8 +23,76 @@ func main() {
 	e.POST("compress/jpeg", compressJPEG)
 	e.POST("compress/png", compressPNG)
 	e.POST("compress/SVD", compressSVD)
+	e.POST("compressAll", compressAll)
 
 	e.Logger.Fatal(e.Start(":8080"))
+}
+
+func compressAll(c echo.Context) error {
+	file, err := c.FormFile("image")
+	if err != nil {
+		return c.String(http.StatusBadRequest, "Failed to get file from request.")
+	}
+
+	// open file
+	src, err := file.Open()
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Failed to open the image")
+	}
+
+	// Decode Image Format
+	_, format, err := image.DecodeConfig(src)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Failed to decode image.")
+	}
+
+	// check image format
+	if format == "png" {
+
+		return c.String(http.StatusOK, "Conversion successful. Compression Successful. JPEG file created.")
+	} else if format == "jpeg" {
+		return compressImage(c, "jpeg")
+	}
+
+	return c.String(http.StatusOK, "Image compressed and stored at")
+}
+
+func convertToJPEG(c echo.Context) error {
+
+	file, err := c.FormFile("image")
+	if err != nil {
+		return c.String(http.StatusBadRequest, "Failed to open image.")
+	}
+
+	// open file
+	src, err := file.Open()
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Failed to open the image")
+	}
+
+	// decode png image
+	pngImage, _, err := image.Decode(src)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Failed to decode image.")
+	}
+
+	// Create a new JPEG file
+	jpegFile, err := os.Create("/Users/shubhampatni/Desktop/workspace/image_compression/svd-compressed-images/" + file.Filename)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Error creating JPEG file")
+	}
+	defer jpegFile.Close()
+
+	// Encode the PNG image as JPEG and write to the new file
+	err = jpeg.Encode(jpegFile, pngImage, &jpeg.Options{Quality: 100})
+	if err != nil {
+		fmt.Println("Error encoding PNG to JPEG:", err)
+		return c.String(http.StatusInternalServerError, "Failed to convert and compress image.")
+	}
+
+	fmt.Println("Conversion successful. JPEG file created.")
+
+	return nil
 }
 
 func compressJPEG(c echo.Context) error {
